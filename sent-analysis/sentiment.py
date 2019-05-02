@@ -35,6 +35,7 @@ with open('../data/YInt.csv', newline='', encoding="utf8") as file1:
     with open('../data/test.csv', 'w', newline='', encoding="utf8") as file2:
         reader = csv.reader(file1)
         writer = csv.writer(file2)
+        writer.writerow(["time","location","account","message","relevant","category","sentiment"])
         count = 0
 
         for row in reader:
