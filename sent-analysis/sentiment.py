@@ -8,10 +8,11 @@ def isRelevant():
 def classify( message ):
 
     situation = ["shake","shaking","vibrate","vibrating"]
-    water = ["water","flood","flooding","sewer"]
-    electric = ["power","electric","electricity"]
-    health = ["health","hurt","pain","help","SOS","bread","breading","blood","arm","leg","death","unconsious"]
-    food = ["food","starve","starving"," eat ","eating"]
+    water = ["water","flood","flooding","sewer","drink","thirst","dehydration"]
+    electric = ["power","electricity","light","energy","current","charge"]
+    health = ["health","hurt","pain","help","SOS","bread","breading","blood","arm","leg","death","unconsious", "hospital","fire","firefighter","care","medicine","nurse","first aid","clinic"]
+    food = ["food","starve","starving"," eat ","eating","hungry","milk","bread","formula","foodstuff"]
+    shelter = ["shelter","house","living place","sleep","rest","accommodation"]
 
     for s in water:
         if s in message: return "water"
@@ -25,6 +26,9 @@ def classify( message ):
     for s in food:
         if s in message: return "food"
 
+    for s in shelter:
+        if s in message: return "shelter"
+
     for s in situation:
         if s in message: return "situation"
 
@@ -32,7 +36,7 @@ def classify( message ):
     return "none"
 
 with open('../data/YInt.csv', newline='', encoding="utf8") as file1:
-    with open('../data/test.csv', 'w', newline='', encoding="utf8") as file2:
+    with open('../data/test2.csv', 'w', newline='', encoding="utf8") as file2:
         reader = csv.reader(file1)
         writer = csv.writer(file2)
         writer.writerow(["time","location","account","message","relevant","category","sentiment"])
@@ -43,6 +47,7 @@ with open('../data/YInt.csv', newline='', encoding="utf8") as file1:
             count+=1
             # if count > 100: break
             if count == 1: continue
+            if "re: " in row[3]: continue
             
             post = " ".join(pp.preprocess(row[3]))
             blob = TextBlob(post).correct()
