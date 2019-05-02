@@ -1,132 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <H1 align="center"><strong>VAST Mini-Challenge 3</strong></H1>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <style>
-        path {
-            fill: #ccc;
-            stroke: #fff;
-            stroke-width: .5px;
-        }
-        path:hover {
-            fill: orange;
-        }
-        body {
-            text-align: center;
-        }
-        div.tooltip {
-            position: absolute;
-            text-align: center;
-            width: 80px;
-            height: 14px;
-            padding: 2px;
-            font: 12px sans-serif;
-            background: #fff;
-            border: 0px;
-            pointer-events: none;
-        }
-        .slidecontainer {
-            width:50%;
-            position: center;
-        }
-
-        .slider {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 15px;
-            border-radius: 5px;
-            background: #d3d3d3;
-            outline: none;
-            opacity: 0.7;
-            -webkit-transition: .2s;
-            transition: opacity .2s;
-        }
-
-
-        .slider:hover {
-            opacity: 1;
-        }
-
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background: #4CAF50;
-            cursor: pointer;
-        }
-
-        .slider::-moz-range-thumb {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background: #4CAF50;
-            cursor: pointer;
-        }
-    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VAST Mini-Challenge 3</title>
+    <link href="css/style.css" type="text/css" rel="stylesheet" />
 </head>
+
 <body>
-<div class="slidecontainer">
-    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-    <p>Time: <span id="demo"></span></p>
-</div>
+    <h1 style="text-align: center;"><strong>VAST Mini-Challenge 3</strong></h1>
+    <div class="slidecontainer">
+        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+        <p>Time: <span id="demo"></span></p>
+    </div>
 
-<script src="//d3js.org/d3.v3.min.js"></script>
-<script src="//d3js.org/topojson.v1.min.js"></script>
-<script>
-    var slider = document.getElementById("myRange");
-    var output = document.getElementById("demo");
-    output.innerHTML = slider.value;
-
-    slider.oninput = function() {
-        output.innerHTML = this.value;
-    }
-    var width = 600,
-        height = 500;
-    var projection = d3.geo.mercator()
-        .scale(1)
-        .translate([0, 0]);
-    var path = d3.geo.path()
-        .projection(projection);
-    var svg = d3.select("body").append("svg")
-        .attr("width", width)
-        .attr("height", height);
-    var url = "https://raw.githubusercontent.com/HXDU/Project-3-Mini-Challenge-3/master/WebCode/StHimark.topojson";
-    var tooltip = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0);
-    d3.json(url, function(error, topology) {
-        if (error) throw error;
-        var geojson = topojson.feature(topology, topology.objects.StHimark);
-        var b = path.bounds(geojson),
-            s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
-            t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
-        projection
-            .scale(s)
-            .translate(t);
-        svg.selectAll("path")
-            .data(geojson.features)
-            .enter().append("path")
-            .attr("d", path)
-            .on("mouseover", function(d) {
-                tooltip.transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                tooltip.html(d.properties.Nbrhood)
-                    .style("left", (d3.event.pageX) + "px")
-                    .style("top", (d3.event.pageY - 28) + "px");
-            })
-            .on("mouseout", function(d) {
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            });
-    });
-    //for slider part-----------------------------------------------------------------------------------
-
-
-</script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="main.js"></script>
 </body>
+
 </html>
