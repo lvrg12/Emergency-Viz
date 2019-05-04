@@ -1,13 +1,55 @@
 "use strict";
 
-(function(){
-    let slider = document.getElementById("myRange");
-let output = document.getElementById("demo");
-output.innerHTML = slider.value;
+const E_TIME = new Date("2020-04-06 14:33:00");
 
-slider.oninput = function () {
-    output.innerHTML = this.value;
+// ------------------------------------ SLIDER ----------------------------------------------------
+
+$( function() {
+    $( "#slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: 5606,
+      values: [ 0, 330 ],
+      slide: function( event, ui )
+      {
+          var date1 = new Date( E_TIME.getTime() );
+          var date2 = new Date( E_TIME.getTime() );
+
+          date1.setMinutes( date1.getMinutes() +  ui.values[ 0 ] );
+          date2.setMinutes( date2.getMinutes() +  ui.values[ 1 ] );
+
+          $( "#date" ).val( formatedDate(date1) + " to " + formatedDate(date2)  );
+
+          // update map visualization using data points between date1 and date2
+          // updateViz( date1, date2 )
+
+      }
+    });
+
+    var date1 = new Date( E_TIME.getTime() );
+    var date2 = new Date( E_TIME.getTime() );
+
+    date1.setMinutes( date1.getMinutes() +  $( "#slider-range" ).slider( "values", 0 ) );
+    date2.setMinutes( date2.getMinutes() +  $( "#slider-range" ).slider( "values", 1 ) );
+
+    $( "#date" ).val( formatedDate(date1) + " to " + formatedDate(date2)  );
+
+
+    // update map visualization using data points between date1 and date2
+    // updateViz( date1, date2 )
+
+} );
+
+function formatedDate( date )
+{
+    return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
 }
+
+
+// ------------------------------------ HEATMAP ----------------------------------------------------
+
+(function(){
+
 let width = 600,
     height = 500;
 let projection = d3.geo.mercator()
@@ -35,6 +77,8 @@ d3.json(url, function (error, topology) {
         .data(geojson.features)
         .enter().append("path")
         .attr("d", path)
+        .style("fill","red")
+        .style("opacity", Math.random )
         .on("mouseover", function (d) {
             tooltip.transition()
                 .duration(200)
@@ -49,7 +93,6 @@ d3.json(url, function (error, topology) {
                 .style("opacity", 0);
         });
 });
-    //for slider part-----------------------------------------------------------------------------------
 
 
 })();
