@@ -97,7 +97,9 @@ function ready( error, topology, data )
     var overall_map = overall_svg.selectAll("map").data(geojson.features)
         .enter()
         .append("path")
-        .attr("d", path);
+        .attr("d", path)
+        .on("mouseover", showTooltip)
+        .on("mouseout", hideTooltip);
 
     s = .95 / Math.max((b[1][0] - b[0][0]) / s_width, (b[1][1] - b[0][1]) / s_height);
     t = [(s_width - s * (b[1][0] + b[0][0])) / 2, (s_height - s * (b[1][1] + b[0][1])) / 2];
@@ -107,28 +109,53 @@ function ready( error, topology, data )
     var health_map = health_svg.selectAll("map").data(geojson.features)
         .enter()
         .append("path")
-        .attr("d", path);
+        .attr("d", path)
+        .on("mouseover", showTooltip)
+        .on("mouseout", hideTooltip);
 
     var food_map = food_svg.selectAll("map").data(geojson.features)
         .enter()
         .append("path")
-        .attr("d", path);
+        .attr("d", path)
+        .on("mouseover", showTooltip)
+        .on("mouseout", hideTooltip);
 
     var water_map = water_svg.selectAll("map").data(geojson.features)
         .enter()
         .append("path")
-        .attr("d", path);
+        .attr("d", path)
+        .on("mouseover", showTooltip)
+        .on("mouseout", hideTooltip);
 
     var electricity_map = electricity_svg.selectAll("map").data(geojson.features)
         .enter()
         .append("path")
-        .attr("d", path);
+        .attr("d", path)
+        .on("mouseover", showTooltip)
+        .on("mouseout", hideTooltip);
 
     addTitle( overall_svg, b_width, 17, "16px", "Overall Resource Map" );
     addTitle( health_svg, s_width, 10,"12px", "Health Map" );
     addTitle( food_svg, s_width, 10,"12px", "Food Map" );
     addTitle( water_svg, s_width, 10,"12px", "Water Map" );
     addTitle( electricity_svg, s_width, 10,"12px", "electricity Map" );
+
+    function showTooltip(d)
+    {
+        tooltip.transition()
+            .duration(200)
+            .style("opacity", .9);
+        tooltip.html(d.properties.Nbrhood)
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
+    }
+
+    function hideTooltip(d)
+    {
+        tooltip.transition()
+            .duration(500)
+            .style("opacity", 0);
+    }
 
     var update = function update( date1, date2 )
     {

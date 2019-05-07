@@ -1,6 +1,7 @@
 body {
     padding: 0;
     margin: 0;
+    background-color: teal;
     font-family: Arial;
 }
 
@@ -10,9 +11,9 @@ path {
     stroke-width: .5px;
 }
 
-.map {
-    background: white;
-}
+/*.map {*/
+/*    background: white;*/
+/*}*/
 
 div#title {
     text-align: center;
