@@ -11,6 +11,12 @@ var health_average = {};
 var health_count = {};
 var food_average = {};
 var food_count = {};
+var water_average = {};
+var water_count = {};
+var electric_average = {};
+var electric_count = {};
+var shelter_average = {};
+var shelter_count = {};
 
 var s_date = new Date( "2020-4-6 14:33:00" );
 var e_date = new Date( "2020-4-6 20:30:00" );
@@ -56,9 +62,14 @@ function formatedDate( date )
 var overall_svg = d3.select("svg#overall_map");
 var health_svg = d3.select("svg#health_map");
 var food_svg = d3.select("svg#food_map");
+var water_svg = d3.select("svg#water_map");
+var electric_svg = d3.select("svg#electric_map");
+var shelter_svg = d3.select("svg#shelter_map");
 
-var width = +overall_svg.attr("width");
-var height = +overall_svg.attr("height");
+var b_width = +overall_svg.attr("width");
+var b_height = +overall_svg.attr("height");
+var s_width = +health_svg.attr("width");
+var s_height = +health_svg.attr("height");
 
 // color scale
 var color = d3.scale.linear()
@@ -90,8 +101,8 @@ function ready( error, topology, data )
 
     var geojson = topojson.feature( topology, topology.objects.StHimark );
     var b = path.bounds(geojson);
-    var s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height);
-    var t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
+    var s = .95 / Math.max((b[1][0] - b[0][0]) / b_width, (b[1][1] - b[0][1]) / b_height);
+    var t = [(b_width - s * (b[1][0] + b[0][0])) / 2, (b_height - s * (b[1][1] + b[0][1])) / 2];
 
     projection.scale(s).translate(t);
 
@@ -100,12 +111,32 @@ function ready( error, topology, data )
         .append("path")
         .attr("d", path);
 
+    s = .95 / Math.max((b[1][0] - b[0][0]) / s_width, (b[1][1] - b[0][1]) / s_height);
+    t = [(s_width - s * (b[1][0] + b[0][0])) / 2, (s_height - s * (b[1][1] + b[0][1])) / 2];
+    
+    projection.scale(s).translate(t);
+
     var health_map = health_svg.selectAll("health_path").data(geojson.features)
         .enter()
         .append("path")
         .attr("d", path);
 
     var food_map = food_svg.selectAll("food_path").data(geojson.features)
+        .enter()
+        .append("path")
+        .attr("d", path);
+
+    var water_map = water_svg.selectAll("water_path").data(geojson.features)
+        .enter()
+        .append("path")
+        .attr("d", path);
+
+    var electric_map = electric_svg.selectAll("electric_path").data(geojson.features)
+        .enter()
+        .append("path")
+        .attr("d", path);
+
+    var shelter_map = shelter_svg.selectAll("shelter_path").data(geojson.features)
         .enter()
         .append("path")
         .attr("d", path);
@@ -128,6 +159,15 @@ function ready( error, topology, data )
 
             food_average[counties[i]] = 0;
             food_count[counties[i]] = 0;
+
+            water_average[counties[i]] = 0;
+            water_count[counties[i]] = 0;
+
+            electric_average[counties[i]] = 0;
+            electric_count[counties[i]] = 0;
+
+            shelter_average[counties[i]] = 0;
+            shelter_count[counties[i]] = 0;
         }
 
         // filtering data
@@ -151,6 +191,24 @@ function ready( error, topology, data )
                     food_average[data[i].location] += +data[i].sentiment;
                     food_count[data[i].location]++;
                 }
+
+                if( data[i].category == "water" )
+                {
+                    water_average[data[i].location] += +data[i].sentiment;
+                    water_count[data[i].location]++;
+                }
+
+                if( data[i].category == "electric" )
+                {
+                    electric_average[data[i].location] += +data[i].sentiment;
+                    electric_count[data[i].location]++;
+                }
+
+                if( data[i].category == "shelter" )
+                {
+                    shelter_average[data[i].location] += +data[i].sentiment;
+                    shelter_count[data[i].location]++;
+                }
             }
         }
 
@@ -165,6 +223,15 @@ function ready( error, topology, data )
 
             if( food_average[c] != 0 )
                 food_average[c] = food_average[c] / food_count[c];
+
+            if( water_average[c] != 0 )
+                water_average[c] = water_average[c] / water_count[c];
+
+            if( electric_average[c] != 0 )
+                electric_average[c] = electric_average[c] / electric_count[c];
+
+            if( shelter_average[c] != 0 )
+                shelter_average[c] = shelter_average[c] / shelter_count[c];
         }
 
         // updating maps
@@ -178,6 +245,18 @@ function ready( error, topology, data )
 
         food_map.style("fill", function(d) {
             return color(food_average[d.properties.Nbrhood])
+        });
+
+        water_map.style("fill", function(d) {
+            return color(water_average[d.properties.Nbrhood])
+        });
+
+        electric_map.style("fill", function(d) {
+            return color(electric_average[d.properties.Nbrhood])
+        });
+
+        shelter_map.style("fill", function(d) {
+            return color(shelter_average[d.properties.Nbrhood])
         });
     }
 
