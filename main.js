@@ -45,15 +45,6 @@ function formatedDate( date )
     return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
 }
 
-function update(year)
-{
-    slider.property("value", year);
-    d3.select(".year").text(year);
-    countyShapes.style("fill", function(d) {
-        return color(d.properties.years[year][0].rate)
-    });
-}
-
 // ------------------------------------ HEATMAP ----------------------------------------------------
 
 // The svg
@@ -62,9 +53,9 @@ var width = +svg.attr("width");
 var height = +svg.attr("height");
 
 // color scale
-var color = d3.scale.threshold()
+var color = d3.scale.linear()
 		.domain([ -1, -0.5, 0, 0.5, 1 ])
-		.range(["#fff7bc", "#fee391", "#fec44f", "#fe9929", "#ec7014", "#cc4c02", "#993404", "#662506"]);
+        .range(["red","white","green"]);
 
 // Load external data and boot
 queue()
@@ -114,53 +105,77 @@ function ready( error, topology, data )
         //         .style("opacity", 0);
         //     });
 
-    //
-
     var date1 = s_date;
     var date2 = e_date;
 
-    // initializing variables
-    for( var i=0; i<counties.length; i++ )
-    {
-        counties_average[counties[i]] = 0;
-        counties_totals[counties[i]] = 0;
-    }
+    update( date1, date2 )
 
-    // filtering data
-    for( var i=0; i<data.length; i++ )
+    function update( date1, date2 )
     {
-        if( data[i].time >= date1
-            & data[i].time < date2
-            & data[i].category != "none" )
+        // initializing variables
+        for( var i=0; i<counties.length; i++ )
         {
-            counties_average[data[i].location] += +data[i].sentiment;
-            counties_totals[data[i].location]++;
+            counties_average[counties[i]] = 0;
+            counties_totals[counties[i]] = 0;
         }
+
+        // filtering data
+        for( var i=0; i<data.length; i++ )
+        {
+            if( data[i].time >= date1
+                & data[i].time < date2
+                & data[i].category != "none" )
+            {
+                counties_average[data[i].location] += +data[i].sentiment;
+                counties_totals[data[i].location]++;
+            }
+        }
+
+        // computing average
+        for( var c in counties_average )
+        {
+            if( counties_average[c] == 0 ) continue; 
+            counties_average[c] = counties_average[c] / counties_totals[c];
+        }
+
+        // updating map
+        // svg.selectAll("path")
+        //     .style("fill", color(Math.random()) );
+
+        paths.style("fill", function(d) {
+            return color(counties_average[d.properties.Nbrhood])
+        });
     }
 
-    // computing average
-    for( var c in counties_average )
+    $( function() {
+        $( "#slider-range" ).slider({
+          range: true,
+          min: 0,
+          max: 5606,
+          values: [ 0, 330 ],
+          slide: function( event, ui )
+          {
+              var date1 = new Date( E_TIME.getTime() );
+              var date2 = new Date( E_TIME.getTime() );
+    
+              date1.setMinutes( date1.getMinutes() +  ui.values[ 0 ] );
+              date2.setMinutes( date2.getMinutes() +  ui.values[ 1 ] );
+    
+              $( "#date" ).val( formatedDate(date1) + " to " + formatedDate(date2)  );
+    
+              // update map visualization using data points between date1 and date2
+              update( date1, date2 )
+    
+          }
+        });
+    
+        $( "#date" ).val( formatedDate(s_date) + " to " + formatedDate(e_date)  );
+    
+    } );
+    
+    function formatedDate( date )
     {
-        if( counties_average[c] == 0 ) continue; 
-        counties_average[c] = counties_average[c] / counties_totals[c];
-    }
-
-    // updating map
-    // svg.selectAll("path")
-    //     .style("fill", color(Math.random()) );
-
-    paths.style("fill", function(d) {
-        return color(counties_average[d.properties.Nbrhood])
-    });
-
-
-    function update(year)
-    {
-		slider.property("value", year);
-		d3.select(".year").text(year);
-		countyShapes.style("fill", function(d) {
-			return color(d.properties.years[year][0].rate)
-		});
+        return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
     }
     
 }
