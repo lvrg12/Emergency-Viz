@@ -10,6 +10,10 @@ path {
     stroke-width: .5px;
 }
 
+/* svg#overall_map {
+    background: gray;
+} */
+
 div#title {
     text-align: center;
     font-size: 48px;

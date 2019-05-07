@@ -4,8 +4,13 @@ var counties = [ "Weston", "Southton", "Broadview", "West Parton", "Old Town", "
                  "Downtown", "Southwest", "Scenic Vista", "East Parton", "Cheddarford",
                  "Palace Hills", "Safe Town", "Easton", "Chapparal", "Northwest", "Oak Willow",
                  "Pepper Mill", "Wilson Forest", "UNKNOWN", "<Location with-held due to contract>"];
-var counties_average = {};
-var counties_totals = {};
+
+var overall_average = {};
+var overall_count = {};
+var health_average = {};
+var health_count = {};
+var food_average = {};
+var food_count = {};
 
 var s_date = new Date( "2020-4-6 14:33:00" );
 var e_date = new Date( "2020-4-6 20:30:00" );
@@ -47,10 +52,13 @@ function formatedDate( date )
 
 // ------------------------------------ HEATMAP ----------------------------------------------------
 
-// The svg
-var svg = d3.select("svg");
-var width = +svg.attr("width");
-var height = +svg.attr("height");
+// svg
+var overall_svg = d3.select("svg#overall_map");
+var health_svg = d3.select("svg#health_map");
+var food_svg = d3.select("svg#food_map");
+
+var width = +overall_svg.attr("width");
+var height = +overall_svg.attr("height");
 
 // color scale
 var color = d3.scale.linear()
@@ -87,23 +95,20 @@ function ready( error, topology, data )
 
     projection.scale(s).translate(t);
 
-    var paths = svg.selectAll("path").data(geojson.features)
+    var overall_map = overall_svg.selectAll("overall_path").data(geojson.features)
         .enter()
         .append("path")
-        .attr("d", path)
-        // .on("mouseover", function (d){
-        //     tooltip.transition()
-        //         .duration(200)
-        //         .style("opacity", .9);
-        //     tooltip.html(d.properties.Nbrhood)
-        //         .style("left", (d3.event.pageX) + "px")
-        //         .style("top", (d3.event.pageY - 28) + "px");
-        //     })
-        // .on("mouseout", function (d) {
-        //     tooltip.transition()
-        //         .duration(500)
-        //         .style("opacity", 0);
-        //     });
+        .attr("d", path);
+
+    var health_map = health_svg.selectAll("health_path").data(geojson.features)
+        .enter()
+        .append("path")
+        .attr("d", path);
+
+    var food_map = food_svg.selectAll("food_path").data(geojson.features)
+        .enter()
+        .append("path")
+        .attr("d", path);
 
     var date1 = s_date;
     var date2 = e_date;
@@ -115,8 +120,14 @@ function ready( error, topology, data )
         // initializing variables
         for( var i=0; i<counties.length; i++ )
         {
-            counties_average[counties[i]] = 0;
-            counties_totals[counties[i]] = 0;
+            overall_average[counties[i]] = 0;
+            overall_count[counties[i]] = 0;
+
+            health_average[counties[i]] = 0;
+            health_count[counties[i]] = 0;
+
+            food_average[counties[i]] = 0;
+            food_count[counties[i]] = 0;
         }
 
         // filtering data
@@ -126,24 +137,47 @@ function ready( error, topology, data )
                 & data[i].time < date2
                 & data[i].category != "none" )
             {
-                counties_average[data[i].location] += +data[i].sentiment;
-                counties_totals[data[i].location]++;
+                overall_average[data[i].location] += +data[i].sentiment;
+                overall_count[data[i].location]++;
+
+                if( data[i].category == "health" )
+                {
+                    health_average[data[i].location] += +data[i].sentiment;
+                    health_count[data[i].location]++;
+                }
+                
+                if( data[i].category == "food" )
+                {
+                    food_average[data[i].location] += +data[i].sentiment;
+                    food_count[data[i].location]++;
+                }
             }
         }
 
         // computing average
-        for( var c in counties_average )
+        for( var c in overall_average )
         {
-            if( counties_average[c] == 0 ) continue; 
-            counties_average[c] = counties_average[c] / counties_totals[c];
+            if( overall_average[c] != 0 )
+                overall_average[c] = overall_average[c] / overall_count[c];
+
+            if( health_average[c] != 0 )
+                health_average[c] = health_average[c] / health_count[c];
+
+            if( food_average[c] != 0 )
+                food_average[c] = food_average[c] / food_count[c];
         }
 
-        // updating map
-        // svg.selectAll("path")
-        //     .style("fill", color(Math.random()) );
+        // updating maps
+        overall_map.style("fill", function(d) {
+            return color(overall_average[d.properties.Nbrhood])
+        });
 
-        paths.style("fill", function(d) {
-            return color(counties_average[d.properties.Nbrhood])
+        health_map.style("fill", function(d) {
+            return color(health_average[d.properties.Nbrhood])
+        });
+
+        food_map.style("fill", function(d) {
+            return color(food_average[d.properties.Nbrhood])
         });
     }
 
@@ -181,56 +215,20 @@ function ready( error, topology, data )
 }
 
 
-function reacdy(error, data, us) 
-{
-
-	var countyShapes = svg.selectAll(".county")
-		.data(counties.features)
-		.enter()
-		.append("path")
-			.attr("class", "county")
-			.attr("d", path);
-
-	countyShapes
-		.on("mouseover", function(d) {
-			tooltip.transition()
-			.duration(250)
-			.style("opacity", 1);
-			tooltip.html(
-			"<p><strong>" + d.properties.years[1996][0].county + ", " + d.properties.years[1996][0].state + "</strong></p>" +
-			"<table><tbody><tr><td class='wide'>Smoking rate in 1996:</td><td>" + formatPercent((d.properties.years[1996][0].rate)/100) + "</td></tr>" +
-			"<tr><td>Smoking rate in 2012:</td><td>" + formatPercent((d.properties.years[2012][0].rate)/100) + "</td></tr>" +
-			"<tr><td>Change:</td><td>" + formatPercent((d.properties.years[2012][0].rate-d.properties.years[1996][0].rate)/100) + "</td></tr></tbody></table>"
-			)
-			.style("left", (d3.event.pageX + 15) + "px")
-			.style("top", (d3.event.pageY - 28) + "px");
-		})
-		.on("mouseout", function(d) {
-			tooltip.transition()
-			.duration(250)
-			.style("opacity", 0);
-		});
-
-
-	function update(year){
-		slider.property("value", year);
-		d3.select(".year").text(year);
-		countyShapes.style("fill", function(d) {
-			return color(d.properties.years[year][0].rate)
-		});
-	}
-
-	var slider = d3.select(".slider")
-		.append("input")
-			.attr("type", "range")
-			.attr("min", 1996)
-			.attr("max", 2012)
-			.attr("step", 1)
-			.on("input", function() {
-				var year = this.value;
-				update(year);
-			});
-
-update(1996);
-
-}
+// var overall_map = svg.selectAll("path").data(geojson.features)
+//         .enter()
+//         .append("path")
+//         .attr("d", path)
+//         .on("mouseover", function (d){
+//             tooltip.transition()
+//                 .duration(200)
+//                 .style("opacity", .9);
+//             tooltip.html(d.properties.Nbrhood)
+//                 .style("left", (d3.event.pageX) + "px")
+//                 .style("top", (d3.event.pageY - 28) + "px");
+//             })
+//         .on("mouseout", function (d) {
+//             tooltip.transition()
+//                 .duration(500)
+//                 .style("opacity", 0);
+//             });
