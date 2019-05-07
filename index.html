@@ -21,20 +21,23 @@
     <p>
         <label for="date">Range:</label>
         <input type="text" id="date" readonly style="color:#f6931f; font-weight:bold; width: 15%;">
+        <select id="operation">
+            <option selected value="average">Average</option>
+            <option value="count">Count</option>
+        </select>
     </p>
-       
+    
     <div id="slider-range"></div>
 
     <div id="big_map">
-        <svg id="overall_map" width="600" height="500"></svg>
+        <svg id="overall_map" class="map" width="600" height="500"></svg>
     </div>
-    
+
     <div id="small_map">
-        <svg id="health_map" width="240" height="200"></svg>
-        <svg id="food_map" width="240" height="200"></svg>
-        <svg id="water_map" width="240" height="200"></svg>
-        <svg id="electric_map" width="240" height="200"></svg>
-        <svg id="shelter_map" width="240" height="200"></svg>
+        <svg id="health_map" class="map" width="240" height="200"></svg>
+        <svg id="food_map" class="map" width="240" height="200"></svg>
+        <svg id="water_map" class="map" width="240" height="200"></svg>
+        <svg id="electricity_map" class="map" width="240" height="200"></svg>
     </div>
 
     <script src="main.js"></script>

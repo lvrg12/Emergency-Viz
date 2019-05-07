@@ -10,9 +10,9 @@ path {
     stroke-width: .5px;
 }
 
-/* svg#overall_map {
-    background: gray;
-} */
+.map {
+    background: white;
+}
 
 div#title {
     text-align: center;
