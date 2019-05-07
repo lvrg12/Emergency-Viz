@@ -130,9 +130,7 @@ function ready( error, topology, data )
     addTitle( water_svg, s_width, 10,"12px", "Water Map" );
     addTitle( electricity_svg, s_width, 10,"12px", "electricity Map" );
 
-    update( s_date, e_date );
-
-    function update( date1, date2 )
+    var update = function update( date1, date2 )
     {
         // initializing variables
         for( var i=0; i<counties.length; i++ )
@@ -239,6 +237,8 @@ function ready( error, topology, data )
 
     }
 
+    update( s_date, e_date );
+
     function addTitle( svg, w, h, size, text )
     {
         svg.append("text")
@@ -247,6 +247,18 @@ function ready( error, topology, data )
             .style("text-anchor", "middle")
             .style("font-size", size) 
             .text( text );
+    }
+
+    function getDate( value )
+    {
+        var date = new Date( E_TIME.getTime() );
+        date.setMinutes( date.getMinutes() +  value );
+        return date;
+    }
+
+    function formatedDate( date )
+    {
+        return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
     }
 
     $( function()
@@ -258,13 +270,9 @@ function ready( error, topology, data )
           values: [ 0, 330 ],
           slide: function( event, ui )
           {
-              var date1 = new Date( E_TIME.getTime() );
-              var date2 = new Date( E_TIME.getTime() );
-    
-              date1.setMinutes( date1.getMinutes() +  ui.values[ 0 ] );
-              date2.setMinutes( date2.getMinutes() +  ui.values[ 1 ] );
-    
-              $( "#date" ).val( formatedDate(date1) + " to " + formatedDate(date2)  );
+              var date1 = getDate(ui.values[0]);
+              var date2 = getDate(ui.values[1])
+              $( "#date" ).val( formatedDate( date1 ) + " TO " + formatedDate( date2 ) );
     
               // update map visualization using data points between date1 and date2
               update( date1, date2 )
@@ -273,13 +281,11 @@ function ready( error, topology, data )
         });
     
         $( "#date" ).val( formatedDate(s_date) + " to " + formatedDate(e_date)  );
-
-        function formatedDate( date )
-        {
-            return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
-        }
     
     } );
+
+
+    document.getElementById("operation").onchange = update( getDate( $( "#slider-range" ).slider( "values", 0 ) ), getDate( $( "#slider-range" ).slider( "values", 1 ) ) );
     
 }
 
