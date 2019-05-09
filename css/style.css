@@ -20,9 +20,9 @@ div#title {
     font-size: 48px;
 }
 
-path:hover {
+/* path:hover {
     fill: orange;
-}
+} */
 
 body {
     text-align: center;

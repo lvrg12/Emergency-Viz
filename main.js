@@ -106,6 +106,8 @@ function ready( error, topology, data )
     
     projection.scale(s).translate(t);
 
+    addColorGradientLegend( overall_svg, 140, 400 );
+
     var health_map = health_svg.selectAll("map").data(geojson.features)
         .enter()
         .append("path")
@@ -274,6 +276,101 @@ function ready( error, topology, data )
             .style("text-anchor", "middle")
             .style("font-size", size) 
             .text( text );
+    }
+
+    function addColorGradientLegend( svg, w, h )
+    {
+        var legendText = ["-1","-0.5","0","0.5","1"];
+
+        var legendColors = [colorAverage(-1),colorAverage(-0.5), colorAverage(0),
+                            colorAverage(0.5), colorAverage(1)];
+
+        var legend = svg.append("g")
+        .attr("id", "legend")
+        .attr("transform", "translate(0,30)")
+
+        legend.append("text")
+            .attr("x", 25 * 2.5)
+            .attr("y", -15)
+            .style("text-anchor", "middle")
+            .style("font-size", "8px") 
+            .text("Sentiment Analysis Score");
+
+        var legenditem = legend.selectAll(".legenditem")
+            .data(d3.range(5))
+            .enter()
+            .append("g")
+                .attr("class", "legenditem")
+                .attr("transform", function(d, i) { return "translate(" + i * 26 + ",0)"; });
+
+        legenditem.append("rect")
+            .attr("x", 0)
+            .attr("y", -7)
+            .attr("width", 25)
+            .attr("height", 6)
+            .attr("class", "rect")
+            .style("fill", function(d, i) { return legendColors[i]; });
+
+        legenditem.append("text")
+            .attr("x", 12.5)
+            .attr("y", 9)
+            .style("text-anchor", "middle")
+            .style("font-size", "8px") 
+            .text(function(d, i) { return legendText[i]; });
+
+    }
+
+    function addColorGradientLegend2( svg, w, h )
+    {
+        var key = svg.append("svg")
+            .attr("width", w)
+            .attr("height", h);
+    
+        var legend = key.append("defs")
+            .append("linearGradient")
+            .attr("id", "gradient")
+            .attr("x1", "100%")
+            .attr("y1", "0%")
+            .attr("x2", "100%")
+            .attr("y2", "100%")
+            .attr("spreadMethod", "pad");
+    
+        legend.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", "red")
+            .attr("stop-opacity", 1);
+
+        legend.append("stop")
+            .attr("offset", "50%")
+            .attr("stop-color", "white")
+            .attr("stop-opacity", 1);
+        
+        legend.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", "green")
+            .attr("stop-opacity", 1);
+
+        key.append("rect")
+            .attr("width", w - 100)
+            .attr("height", h - 100)
+            .style("fill", "url(#gradient)")
+            .attr("transform", "translate(0,10)");
+    
+        var y = d3.scale.linear().range([300, 0]).domain([-1, 1]);
+    
+        var yAxis = d3.svg.axis().scale(y).orient("right");
+    
+        key.append("g")
+            .attr("class", "y axis")
+            .attr("transform", "translate(41,10)")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 30)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("axis title");
+        
     }
 
     function getDate( value )
