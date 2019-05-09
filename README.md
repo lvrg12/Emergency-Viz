@@ -22,8 +22,60 @@ City Officials have identified a subset of Y*INT, a community-based social media
 3. What is the community experiencing?
 4. Explain how you are using static or dynamic stream of data for analysis.
 
-## Solution Description
+## Solution
+
+Our solution consists on implementing sentiment analysis on the earthquake-related messages to indentify the critical level of the user and map them to specific needs (health, water, electricity). 
+
+### Overview
+
+The process to accomplish this is the following:
+
+1. Preprocessing each message
+    1. Tokenization
+    2. Lemmatization
+    3. Stemming
+2. Sentiment analysis on each message
+    1. Calculate the sentiment of each message using a pretrained sentiment analysis algorithm.
+3. Categorization
+    1. Categorization of each message using a set of keywords per resource category.
+4. Time-series graph
+5. Choropleth map
+    1. A neighborhood level map is used to show their distinct values.
+    2. A color gradient (red-green) is used to show average sentiment score.
+    3. A color gradient (white-blue) is used to show the amount of messages posted
+6. Detail message view
+    1. A snapshot of the messages is used to show detail related messages
+
+#### Implementation Overview
 
 ### Preprocessing
+Given that most messages are 
 
-### Map
+
+#### Implementation
+
+### Sentiment Analysis
+#### Implementation
+
+### Categorization
+#### Implementation
+
+### Time-series graph
+#### Implementation
+
+### Choropleth Map
+#### Implementation
+
+### Detail message view
+#### Implementation
+
+
+## Task Specific Solutions
+
+## References
+
+1. D3
+2. NLTK
+3. TextBlob
+4. Time-series library
+5. Choropleth map
