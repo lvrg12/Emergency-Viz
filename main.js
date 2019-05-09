@@ -94,11 +94,16 @@ function ready( error, topology, data )
 
     projection.scale(s).translate(t);
 
+    geojson.features.forEach( function (d) {
+        d.properties.average = {};
+        d.properties.count = {};
+    });
+
     var overall_map = overall_svg.selectAll("map").data(geojson.features)
         .enter()
         .append("path")
         .attr("d", path)
-        .on("mouseover", showTooltip)
+        .on("mouseover", function(d) { showTooltip(d,"overall") })
         .on("mouseout", hideTooltip);
 
     s = .95 / Math.max((b[1][0] - b[0][0]) / s_width, (b[1][1] - b[0][1]) / s_height);
@@ -113,28 +118,28 @@ function ready( error, topology, data )
         .enter()
         .append("path")
         .attr("d", path)
-        .on("mouseover", showTooltip)
+        .on("mouseover", function(d) { showTooltip(d,"health") })
         .on("mouseout", hideTooltip);
 
     var food_map = food_svg.selectAll("map").data(geojson.features)
         .enter()
         .append("path")
         .attr("d", path)
-        .on("mouseover", showTooltip)
+        .on("mouseover", function(d) { showTooltip(d,"food") })
         .on("mouseout", hideTooltip);
 
     var water_map = water_svg.selectAll("map").data(geojson.features)
         .enter()
         .append("path")
         .attr("d", path)
-        .on("mouseover", showTooltip)
+        .on("mouseover", function(d) { showTooltip(d,"water") })
         .on("mouseout", hideTooltip);
 
     var electricity_map = electricity_svg.selectAll("map").data(geojson.features)
         .enter()
         .append("path")
         .attr("d", path)
-        .on("mouseover", showTooltip)
+        .on("mouseover", function(d) { showTooltip(d,"electricity") })
         .on("mouseout", hideTooltip);
 
     addTitle( overall_svg, b_width, 17, "16px", "Overall Resource Map" );
@@ -143,12 +148,18 @@ function ready( error, topology, data )
     addTitle( water_svg, s_width, 10,"12px", "Water Map" );
     addTitle( electricity_svg, s_width, 10,"12px", "Electricity Map" );
 
-    function showTooltip(d)
+    function showTooltip( d, type )
     {
         tooltip.transition()
             .duration(200)
             .style("opacity", .9);
-        tooltip.html(d.properties.Nbrhood)
+        tooltip.html(
+            
+            "<div style='text-align:center'><strong>" + d.properties.Nbrhood + "</strong></div>" +
+			"<table><tr><td>Avg. Sentiment Score:</td><td>" + d.properties.average[type].toFixed(2) + "</td></tr>" +
+			"<tr><td>Message Count:</td><td>" + d.properties.count[type] + "</td></tr></table>"
+            
+            )
             .style("left", (d3.event.pageX) + "px")
             .style("top", (d3.event.pageY - 28) + "px");
     }
@@ -189,7 +200,7 @@ function ready( error, topology, data )
         {
             if( data[i].time >= date1
                 & data[i].time < date2
-                & data[i].category != "none" )
+                & ( data[i].category != "none" & data[i].category != "situation" & data[i].category != "shelter") )
             {
                 overall_average[data[i].location] += +data[i].sentiment;
                 overall_count[data[i].location]++;
@@ -199,20 +210,17 @@ function ready( error, topology, data )
                     health_average[data[i].location] += +data[i].sentiment;
                     health_count[data[i].location]++;
                 }
-                
-                if( data[i].category == "food" )
+                else if( data[i].category == "food" )
                 {
                     food_average[data[i].location] += +data[i].sentiment;
                     food_count[data[i].location]++;
                 }
-
-                if( data[i].category == "water" )
+                else if( data[i].category == "water" )
                 {
                     water_average[data[i].location] += +data[i].sentiment;
                     water_count[data[i].location]++;
                 }
-
-                if( data[i].category == "electric" )
+                else if( data[i].category == "electric" )
                 {
                     electricity_average[data[i].location] += +data[i].sentiment;
                     electricity_count[data[i].location]++;
@@ -241,6 +249,20 @@ function ready( error, topology, data )
 
         }
 
+        geojson.features.forEach( function (d) {
+            d.properties.average["overall"] = overall_average[d.properties.Nbrhood];
+            d.properties.average["health"] = health_average[d.properties.Nbrhood];
+            d.properties.average["food"] = food_average[d.properties.Nbrhood];
+            d.properties.average["water"] = water_average[d.properties.Nbrhood];
+            d.properties.average["electricity"] = electricity_average[d.properties.Nbrhood];
+
+            d.properties.count["overall"] = overall_count[d.properties.Nbrhood];
+            d.properties.count["health"] = health_count[d.properties.Nbrhood];
+            d.properties.count["food"] = food_count[d.properties.Nbrhood];
+            d.properties.count["water"] = water_count[d.properties.Nbrhood];
+            d.properties.count["electricity"] = electricity_count[d.properties.Nbrhood];
+        });
+
         // updating maps
         updateMaps( overall_map, overall_average, overall_count );
         updateMaps( health_map, health_average, health_count );
@@ -263,6 +285,8 @@ function ready( error, topology, data )
                     return colorCount(count[d.properties.Nbrhood])
                 });
             }
+
+            // map.on( "mousedown", console.log("helloworld"));
 
         }
 
@@ -416,22 +440,3 @@ function ready( error, topology, data )
     document.getElementById("operation").onchange = update( getDate( $( "#slider-range" ).slider( "values", 0 ) ), getDate( $( "#slider-range" ).slider( "values", 1 ) ) );
     
 }
-
-
-// var overall_map = svg.selectAll("path").data(geojson.features)
-//         .enter()
-//         .append("path")
-//         .attr("d", path)
-//         .on("mouseover", function (d){
-//             tooltip.transition()
-//                 .duration(200)
-//                 .style("opacity", .9);
-//             tooltip.html(d.properties.Nbrhood)
-//                 .style("left", (d3.event.pageX) + "px")
-//                 .style("top", (d3.event.pageY - 28) + "px");
-//             })
-//         .on("mouseout", function (d) {
-//             tooltip.transition()
-//                 .duration(500)
-//                 .style("opacity", 0);
-//             });
