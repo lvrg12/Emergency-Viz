@@ -106,7 +106,7 @@ function ready( error, topology, data )
     
     projection.scale(s).translate(t);
 
-    // addAverageLegend( overall_svg );
+    addAverageLegend( overall_svg );
     addCountLegend( overall_svg );
 
     var health_map = health_svg.selectAll("map").data(geojson.features)
@@ -162,6 +162,8 @@ function ready( error, topology, data )
 
     var update = function update( date1, date2 )
     {
+        var operation = document.getElementById("operation").value;
+
         // initializing variables
         for( var i=0; i<counties.length; i++ )
         {
@@ -248,7 +250,6 @@ function ready( error, topology, data )
 
         function updateMaps( map, average, count )
         {
-            var operation = document.getElementById("operation").value;
 
             if( operation == "average" )
             {
@@ -263,6 +264,17 @@ function ready( error, topology, data )
                 });
             }
 
+        }
+
+        if( operation == "average")
+        {
+            d3.select("#average_legend").style("opacity",1);
+            d3.select("#count_legend").style("opacity",0);
+        }
+        else
+        {
+            d3.select("#average_legend").style("opacity",0);
+            d3.select("#count_legend").style("opacity",1);
         }
 
     }
@@ -289,6 +301,7 @@ function ready( error, topology, data )
         var legend = svg.append("g")
         .attr("id", "average_legend")
         .attr("transform", "translate(0,30)")
+        .style("opacity",0);
 
         legend.append("text")
             .attr("x", 25 * 2.5)
@@ -331,6 +344,7 @@ function ready( error, topology, data )
         var legend = svg.append("g")
         .attr("id", "count_legend")
         .attr("transform", "translate(0,30)")
+        .style("opacity",0);
 
         legend.append("text")
             .attr("x", 25 * 2.5)
