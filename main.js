@@ -138,7 +138,7 @@ function ready( error, topology, data )
     addTitle( health_svg, s_width, 10,"12px", "Health Map" );
     addTitle( food_svg, s_width, 10,"12px", "Food Map" );
     addTitle( water_svg, s_width, 10,"12px", "Water Map" );
-    addTitle( electricity_svg, s_width, 10,"12px", "electricity Map" );
+    addTitle( electricity_svg, s_width, 10,"12px", "Electricity Map" );
 
     function showTooltip(d)
     {
