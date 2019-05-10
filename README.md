@@ -97,6 +97,18 @@ Once again, this phase was implemented in Python and the results were appended t
 ### Time-series graph
 
 ### Choropleth Map
+To be able to visualize the geographical distribution of the users a choropleth map was used. This map was divided in 19 neighborhoods. Each neighborhood is color coded by a gradient which encodes either the sentiment score average or the amount of earthquake-related messages within that area. There is one big map which shows the overall results among all the resource categories and 4 smaller maps that show the values for that specific resource category. Those smaller visualize the water-related, food-related, health-related, and electricity-related messages. All the maps are also affected by the time slider located at the top of the page. That is a double slider and it is used to set the time range of the data the user wants to view. A screenshot of the demo is shown below.
+
+![alt text](media/overview.png)
+
+The color gradient goes from red to white to green where red is -1 sentiment score, white is 0 sentiment score, and green is 1 sentiment score. Since some of the neighborhoods can only have one message posted the average can be largely affected by that one message. Therefore, a count option is available on the top right corner. The color gradient would change to white to blue where white is 0 messages and blue is 150 or more messages. So, the user can change the view to count to see if that average is coming from few or many users. The example is shown below.
+
+![alt text](media/sent_vs_count.png)
+Notice that average sentiment analysis alone does not equal emergency lever.
+
+The user is also able to hover on each neighborhood to see the name of it, the current average and count given the map and the time intervals. The tooltip is shown below.
+
+![alt text](media/tooltip.png)
 
 ### Detail message view
 
@@ -107,6 +119,11 @@ Once again, this phase was implemented in Python and the results were appended t
 1. Allocation of resources based on time and conditions.
 
 Utilizing the time slider, the choropleth map can be set to show the average sentiment analysis of each neighborhood during a specific interval. The picture below shows the time range between the time the incident first started (that time is set manually based on the official city report) and 5 and half hours after that. The negative sentiment score average shows the areas where the users show the most negative messages and presumably the ones that need urgent assistance.
+
+![alt text](media/t1.png)
+
+In the picture above we can see that by the sentiment score the center region have negative sentiment about food, Old Town has negative sentiment about water and electricity, and Broadview has negative sentiment about electricity. By looking at the overall message count map, it can be seen that Old Town, Cheddarford at the center, and Weston and Southton have a higher number of posted messages. Therefore we can presume that those areas are in the most need after 5:30 hours after the incident. Those places would need food, electricity, and water first. Then the other neighborhood can be assisted.
+
 
 2. Relocation of resources and change in conditions.
 

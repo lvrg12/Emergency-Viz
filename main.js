@@ -59,7 +59,7 @@ let colorAverage = d3.scale.linear()
     .range(["red", "white", "green"]);
 
 let colorCount = d3.scale.linear()
-    .domain([0, 300])
+    .domain([0, 150])
     .range(["white", "blue"]);
 
 // Load external data and boot
@@ -333,10 +333,10 @@ function ready(error, topology, data) {
     }
 
     function addCountLegend(svg) {
-        let legendText = ["0", "75", "150", "225", ">300"];
+        let legendText = ["0", "37", "75", "112", ">150"];
 
-        let legendColors = [colorCount(0), colorCount(75), colorCount(150),
-        colorCount(225), colorCount(300)];
+        let legendColors = [colorCount(0), colorCount(37), colorCount(74),
+        colorCount(112), colorCount(150)];
 
         let legend = svg.append("g")
             .attr("id", "count_legend")
