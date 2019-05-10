@@ -28,7 +28,7 @@ function genPost(user, time, text) {
     right.appendChild(userDiv);
 
     const timeDiv = document.createElement("div");
-    timeDiv.className = "time";
+    timeDiv.className = " - time";
     right.appendChild(timeDiv);
 
     const textDiv = document.createElement("div");
