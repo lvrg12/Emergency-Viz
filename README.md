@@ -139,6 +139,9 @@ In the picture above we can see that by the sentiment score the center region ha
 
 2. Relocation of resources and change in conditions.
 
+![alt text](media/change.png)
+
+
 3. Overall sentiment in St. Himark and extra information shown.
 
 4. Static collection analysis.
