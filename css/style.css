@@ -38,8 +38,30 @@ div#header {
 }
 
 div#content {
-    position: relative;
-    top: 150px;
+    position: absolute;
+    top: 133px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+}
+
+.left-col {
+    right: initial !important;
+    width: 1000px;
+}
+
+.right-col {
+    position: absolute;
+    top: 133px;
+    left: 1000px;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+}
+
+.not-visible {
+    display: none;
 }
 
 /* path:hover {
