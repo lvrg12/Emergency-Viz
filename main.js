@@ -167,8 +167,6 @@ function ready(error, topology, data) {
     }
 
     let update = function (date1, date2) {
-        //Upadte linegraph
-        lineGraph(date1, date2);
         let operation = document.getElementById("operation").value;
 
         // initializing letiables

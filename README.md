@@ -1,11 +1,9 @@
 # Emergency-Viz
 Emergency heatmap visualization based on social media sentiment analysis data
 
-## [View Demo](https://lvrg12.github.io/Emergency-Viz)
-## [Social Media Demo](https://ak65234.github.io/yint)
-
-### [2019 VAST Challenge 3](https://vast-challenge.github.io/2019/MC3.html)
-### [Project Plan Slides](https://docs.google.com/presentation/d/1NSMiZwhJRdERxvI1hofadxJo497KDrJnYWnUcZlnioE/edit?usp=sharing)
+Demo: https://lvrg12.github.io/Emergency-Viz
+Social Media Demo: https://ak65234.github.io/yint
+Project Plan: https://docs.google.com/presentation/d/1NSMiZwhJRdERxvI1hofadxJo497KDrJnYWnUcZlnioE/edit?usp=sharing
 
 ## VAST Mini-Challenge 3
 
@@ -100,6 +98,8 @@ Once again, this phase was implemented in Python and the results were appended t
 
 ### Time-series graph
 
+There are two time-series graphs that show the overall trend of the sentiment analysis and the amount of messages posted.
+
 ### Choropleth Map
 To be able to visualize the geographical distribution of the users a choropleth map was used. This map was divided in 19 neighborhoods. Each neighborhood is color coded by a gradient which encodes either the sentiment score average or the amount of earthquake-related messages within that area. There is one big map which shows the overall results among all the resource categories and 4 smaller maps that show the values for that specific resource category. Those smaller visualize the water-related, food-related, health-related, and electricity-related messages. All the maps are also affected by the time slider located at the top of the page. That is a double slider and it is used to set the time range of the data the user wants to view. A screenshot of the demo is shown below.
 
@@ -163,3 +163,4 @@ The data for this project was analized staticlly before being used in the web ap
 7. Time-series library
 8. Doug Dowson, http://bl.ocks.org/dougdowson/9832019
 9. jQuery, https://jquery.com/
+10. Mike Bostock, https://bl.ocks.org/mbostock/1134768
