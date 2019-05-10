@@ -103,15 +103,29 @@ Once again, this phase was implemented in Python and the results were appended t
 
 ## Task Specific Solutions
 
+
+1. Allocation of resources based on time and conditions.
+
+Utilizing the time slider, the choropleth map can be set to show the average sentiment analysis of each neighborhood during a specific interval. The picture below shows the time range between the time the incident first started (that time is set manually based on the official city report) and 5 and half hours after that. The negative sentiment score average shows the areas where the users show the most negative messages and presumably the ones that need urgent assistance.
+
+2. Relocation of resources and change in conditions.
+
+3. Overall sentiment in St. Himark and extra information shown.
+
+4. Static collection analysis.
+
+
+
+
 ## Contributions
 
 ## References
 
-1. D3
-2. NLTK
+1. D3, https://d3js.org
+2. NLTK, https://www.nltk.org/
 3. “Big data analytics for disaster response and recovery through sentiment Analysis” by J. Rexiline Raginia, P.M. Rubesh Anand, Vidhyacharan Bhaskar
 4. “Disaster early warning and damage assessment analysis using social media data and geo-location information” by Desheng Wu, Yiwen Cui
 5. “Sentiment analysis during Hurricane Sandy in emergency response” by Venkata K. Neppalli, Cornelia Caragea, Anna Squicciarini, Andrea Tapia, Sam Stehle
-6. TextBlob
+6. TextBlob, https://textblob.readthedocs.io/en/dev/index.html
 7. Time-series library
-8. Choropleth map
+8. Doug Dowson, http://bl.ocks.org/dougdowson/9832019
