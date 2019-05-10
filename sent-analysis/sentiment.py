@@ -11,7 +11,7 @@ def classify( message ):
     water = ["water","flood","flooding","sewer","drink","thirst","dehydration"]
     electric = ["power","electricity","light","energy","current","charge"]
     health = ["health","hurt","pain","help","SOS","bread","breading","blood","arm","leg","death","unconsious", "hospital","fire","firefighter","care","medicine","nurse","first aid","clinic"]
-    food = ["food","starve","starving"," eat ","eating","hungry","milk","bread","formula","foodstuff"]
+    food = ["food","starve","starving"," eat ","eating","hungry","milk","bread","formula","foodstuff","doctor"]
     shelter = ["shelter","house","living place","sleep","rest","accommodation"]
 
     for s in water:
