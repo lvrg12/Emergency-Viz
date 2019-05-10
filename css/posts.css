@@ -1,0 +1,37 @@
+.post {
+    position: relative;
+    width: 75%;
+    background-color: #fff;
+    margin: auto;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.post-left, .post-right, .user, .time {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.post-left {
+    width: 10%;
+}
+
+.post-right {
+    width: 90%;
+}
+
+.time {
+    text-align: right;
+    width: auto;
+}
+
+.pfp {
+    width: 64px;;
+    height: 64px;
+    border-radius: 32px;
+    text-align: center;
+    font-size: 64px;
+    background-color: #09f;
+    overflow: hidden;
+}

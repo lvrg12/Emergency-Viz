@@ -7,12 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>VAST Mini-Challenge 3</title>
     <link href="css/style.css" type="text/css" rel="stylesheet" />
+    <link href="css/posts.css" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="https://d3js.org/queue.v1.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="posts.js"></script>
 </head>
 
 <body>
@@ -28,9 +30,10 @@
             <option selected value="average">Average</option>
             <option value="count">Count</option>
         </select>
+        <input type="button" id="postButton" value="Show Posts" />
     </div>
 
-    <div id="content">
+    <div id="content" class="">
         <div id="big_map">
             <svg id="overall_map" class="map" width="600" height="500"></svg>
         </div>
@@ -45,6 +48,8 @@
         <script src="lineGraph.js"></script>
         <script src="stacked.js"></script>
     </div>
+
+    <div id="posts" class="not-visible"></div>
 </body>
 
 </html>

@@ -187,6 +187,7 @@ function ready(error, topology, data) {
             electricity_count[counties[i]] = 0;
         }
 
+        let newData = [];
 
         // filtering data
         for (let i = 0; i < data.length; i++) {
@@ -210,6 +211,7 @@ function ready(error, topology, data) {
                     electricity_count[data[i].location]++;
                 }
 
+                newData.push(data[i]);
             }
         }
 
@@ -276,6 +278,8 @@ function ready(error, topology, data) {
             d3.select("#average_legend").style("opacity", 0);
             d3.select("#count_legend").style("opacity", 1);
         }
+
+        updatePosts(newData);
 
     }
 
