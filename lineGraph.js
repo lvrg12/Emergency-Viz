@@ -2,7 +2,7 @@
 
 let lineGraph = function (date1, date2) {
     let margin = {top: 20, right: 80, bottom: 30, left: 50},
-        width = 900 - margin.left - margin.right,
+        width = 1500 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
     let parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
