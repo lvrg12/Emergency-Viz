@@ -20,6 +20,12 @@ div#title {
     font-size: 48px;
 }
 
+div#slider-wrapper {
+    width: 300px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
 /* path:hover {
     fill: orange;
 } */
