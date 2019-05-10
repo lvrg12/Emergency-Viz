@@ -2,7 +2,9 @@
 Emergency heatmap visualization based on social media sentiment analysis data
 
 Demo: https://lvrg12.github.io/Emergency-Viz
+
 Social Media Demo: https://ak65234.github.io/yint
+
 Project Plan: https://docs.google.com/presentation/d/1NSMiZwhJRdERxvI1hofadxJo497KDrJnYWnUcZlnioE/edit?usp=sharing
 
 ## VAST Mini-Challenge 3
