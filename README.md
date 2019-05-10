@@ -153,6 +153,9 @@ The data for this project was analized staticlly before being used in the web ap
 ## Contributions
 
 - Alexander
+    -Added time series
+    -Integrated time series with slider
+    
 - Andrew
 - Lino
     - Researched related work on the topic
