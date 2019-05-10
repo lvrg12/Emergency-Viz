@@ -166,7 +166,7 @@ function ready(error, topology, data) {
             .style("opacity", 0);
     }
 
-    let update = function update(date1, date2) {
+    let update = function (date1, date2) {
         let operation = document.getElementById("operation").value;
 
         // initializing letiables
@@ -185,7 +185,6 @@ function ready(error, topology, data) {
 
             electricity_average[counties[i]] = 0;
             electricity_count[counties[i]] = 0;
-
         }
 
 
@@ -406,7 +405,7 @@ function ready(error, topology, data) {
 
     });
 
-
-    document.getElementById("operation").onchange = update(getDate($("#slider-range").slider("values", 0)), getDate($("#slider-range").slider("values", 1)));
-
+    document.getElementById("operation").addEventListener("change", function (e) {
+        update(getDate($("#slider-range").slider("values", 0)), getDate($("#slider-range").slider("values", 1)));
+    }, false);
 }

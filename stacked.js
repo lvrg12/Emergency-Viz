@@ -31,14 +31,14 @@
 
     let nest = d3.nest()
         .key(function (d) { return d.category; });
-
+    
     let area = d3.svg.area()
         .interpolate("cardinal")
         .x(function (d) { return x(d.time); })
         .y0(function (d) { return y(d.y0); })
         .y1(function (d) { return y(d.y0 + d.y); });
 
-    let svg = d3.select("body").append("svg")
+    let svg = d3.select("div#content").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")

@@ -29,7 +29,7 @@
         .x(function (d) { return x(d.time); })
         .y(function (d) { return y(d.sentiment); });
 
-    let svg = d3.select("body").append("svg")
+    let svg = d3.select("div#content").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
