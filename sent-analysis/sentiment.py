@@ -7,7 +7,7 @@ def isRelevant():
 
 def classify( message ):
 
-    situation = ["shake","shaking","vibrate","vibrating"]
+    situation = ["shake","shaking","vibrate","vibrating","earthquake","quake","trembling"]
     water = ["water","flood","flooding","sewer","drink","thirst","dehydration"]
     electric = ["power","electricity","light","energy","current","charge"]
     health = ["health","hurt","pain","help","SOS","bread","breading","blood","arm","leg","death","unconsious", "hospital","fire","firefighter","care","medicine","nurse","first aid","clinic"]

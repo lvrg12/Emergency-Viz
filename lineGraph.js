@@ -24,7 +24,7 @@ var yAxis = d3.svg.axis()
 var line = d3.svg.line()
     .interpolate("basis")
     .x(function(d) { return x(d.time); })
-    .y(function(d) { console.log(d); return y(d.sentiment); });
+    .y(function(d) { return y(d.sentiment); });
 
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
