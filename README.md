@@ -161,6 +161,11 @@ The data for this project was analized staticlly before being used in the web ap
     -Integrated time series with slider
     
 - Andrew
+    - HTML and CSS design
+            - Static Header
+            - Resized slider to fit in smaller space
+            - Positioning of views
+    - Implemented detailed message view
 - Lino
     - Researched related work on the topic
     - Implemented word preprocessing
