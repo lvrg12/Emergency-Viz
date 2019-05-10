@@ -64,9 +64,9 @@ let colorCount = d3.scale.linear()
 
 // Load external data and boot
 queue()
-    .defer(d3.json, "https://raw.githubusercontent.com/HXDU/Project-3-Mini-Challenge-3/master/WebCode/StHimark.topojson")
-    .defer(d3.csv, "https://raw.githubusercontent.com/lvrg12/Emergency-Viz/master/data/test.csv")
-    .await(ready);
+  .defer(d3.json, "https://raw.githubusercontent.com/HXDU/Project-3-Mini-Challenge-3/master/WebCode/StHimark.topojson" )
+  .defer(d3.csv, "https://raw.githubusercontent.com/lvrg12/Emergency-Viz/master/data/test3.csv" )
+  .await(ready);
 
 function ready(error, topology, data) {
     if (error)

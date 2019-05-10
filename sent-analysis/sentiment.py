@@ -36,7 +36,7 @@ def classify( message ):
     return "none"
 
 with open('../data/YInt.csv', newline='', encoding="utf8") as file1:
-    with open('../data/test2.csv', 'w', newline='', encoding="utf8") as file2:
+    with open('../data/test3.csv', 'w', newline='', encoding="utf8") as file2:
         reader = csv.reader(file1)
         writer = csv.writer(file2)
         writer.writerow(["time","location","account","message","relevant","category","sentiment"])
@@ -47,7 +47,7 @@ with open('../data/YInt.csv', newline='', encoding="utf8") as file1:
             count+=1
             # if count > 100: break
             if count == 1: continue
-            if "re: " in row[3]: continue
+            # if "re: " in row[3]: continue
             
             post = " ".join(pp.preprocess(row[3]))
             blob = TextBlob(post).correct()
