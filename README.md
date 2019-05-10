@@ -66,6 +66,10 @@ In order to accuretely analyze the messages posted by users they must have to be
     - The sentence is put back together and its grammar is corrected using a grammar library.
     - This is necessary since many words are potentially incomplete due to stemming.
 
+An example of this word preprocessing is shown below.
+
+![alt text](media/wordpre.png)
+
 At the end of these processes, each simplified message is ready to be analyzed.
 
 All the preprocessing techniques were implemented in Python using the NLTK library [2]. These changes to the data were also done prior to loading the data to the web in order to avoid heavy browser computation and to take advantage of the Python environment and libraries.
@@ -131,10 +135,22 @@ In the picture above we can see that by the sentiment score the center region ha
 
 4. Static collection analysis.
 
+The data for this project was analized staticlly before being used in the web application. This was done mainly to avoid heavy computation in the client side. To analyze the data, we used Python and many external libraries. This analysis was done in one code execution and it included word preprocessing, sentiment analysis, and keyword filtering. Since there were about 40,000 message entries, the scripts could not be ran on a local machine. Hence, we used the Quanah cluster in the Texas Tech High Performance Computing Center. Even then the analysis processed took several hours to finish. The screen would have probably frozen ff we had performed this process naively on the browser. Therefore, one of the advantages of pre analyzing the data is saving computing time and power from the client sie, and just focusing on visualization. In the other hand, it does not represent an accurate approach for the real world. Similarly, the visualization is only taking a specific amount of entries and would never show the data of the current time after the data was loaded. This would not only provide a limited data to the user but it would also force the users to wait for the data to increase in size and show any meaninful information.
 
 
 
 ## Contributions
+
+- Alexander
+- Andrew
+- Lino
+    - Researched related work on the topic
+    - Implemented word preprocessing
+    - Implemented sentiment analysis
+    - Implemented keyword filtering
+    - Developed choropleth maps
+    - Developed time interval slider
+    - Contributed to the report
 
 ## References
 
