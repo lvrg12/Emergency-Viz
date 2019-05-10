@@ -16,7 +16,7 @@ var z = d3.scale.category10();
 
 var xAxis = d3.svg.axis()
     .scale(x)
-    .orient("up")
+    .orient("bottom")
     .tickFormat(d3.time.format("%b"));
 
 var yAxis = d3.svg.axis()

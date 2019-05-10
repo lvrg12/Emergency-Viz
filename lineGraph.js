@@ -1,7 +1,7 @@
 "use strict";
 
-(function () {
-    let margin = { top: 20, right: 80, bottom: 30, left: 50 },
+let lineGraph = function (date1, date2) {
+    let margin = {top: 20, right: 80, bottom: 30, left: 50},
         width = 900 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
@@ -26,19 +26,28 @@
 
     let line = d3.svg.line()
         .interpolate("basis")
-        .x(function (d) { return x(d.time); })
-        .y(function (d) { return y(d.sentiment); });
-
-    let svg = d3.select("div#content").append("svg")
+        .x(function (d) {
+            return x(d.time);
+        })
+        .y(function (d) {
+            return y(d.sentiment);
+        });
+    d3.select("div#content").select('#lineGraph').remove();
+    let svg = d3.select("div#content").append("svg").attr('id', 'lineGraph')
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+    let sentimentData;
     d3.csv("data/test.csv", function (error, data) {
-
-
-        color.domain(d3.keys(data[0]).filter(function (key) { return key == "category"; }));
+        sentimentData = data;
+        drawLineGraph(date1, date2);
+    });
+    function drawLineGraph(date1, date2) {
+        let data = sentimentData.slice();
+        color.domain(d3.keys(data[0]).filter(function (key) {
+            return key == "category";
+        }));
 
         // format data
 
@@ -49,16 +58,37 @@
                 sentiment: +d.sentiment
             };
         });
-
+        //Filter data
+        if(date1 && date2){
+            data = data.filter(d=>d.time>=date1 && d.time<=date2);
+        }
 
         // nest the data on category since we want to only draw one line per category
-        data = d3.nest().key(function (d) { return d.category; }).entries(data);
+        data = d3.nest().key(function (d) {
+            return d.category;
+        }).entries(data);
 
 
-        x.domain([d3.min(data, function (d) { return d3.min(d.values, function (d) { return d.time; }); }),
-        d3.max(data, function (d) { return d3.max(d.values, function (d) { return d.time; }); })]);
-        y.domain([d3.min(data, function (d) { return d3.min(d.values, function (d) { return d.sentiment; }); }),
-        d3.max(data, function (d) { return d3.max(d.values, function (d) { return d.sentiment; }); })]);
+        x.domain([d3.min(data, function (d) {
+            return d3.min(d.values, function (d) {
+                return d.time;
+            });
+        }),
+            d3.max(data, function (d) {
+                return d3.max(d.values, function (d) {
+                    return d.time;
+                });
+            })]);
+        y.domain([d3.min(data, function (d) {
+            return d3.min(d.values, function (d) {
+                return d.sentiment;
+            });
+        }),
+            d3.max(data, function (d) {
+                return d3.max(d.values, function (d) {
+                    return d.sentiment;
+                });
+            })]);
 
 
         svg.append("g")
@@ -71,14 +101,22 @@
             .call(yAxis);
 
         let categories = svg.selectAll(".category")
-            .data(data, function (d) { return d.key; })
+            .data(data, function (d) {
+                return d.key;
+            })
             .enter().append("g")
             .attr("class", "category");
 
         categories.append("path")
             .attr("class", "line")
-            .attr("d", function (d) { return line(d.values); })
-            .style("stroke", function (d) { return color(d.key); });
+            .attr("d", function (d) {
+                return line(d.values);
+            })
+            .style("stroke", function (d) {
+                return color(d.key);
+            });
 
-    });
-})();
+    }
+
+};
+lineGraph();

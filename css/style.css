@@ -6,7 +6,7 @@ body {
 }
 
 path {
-    fill: #ccc;
+    fill: none;
     stroke: #fff;
     stroke-width: .5px;
 }
