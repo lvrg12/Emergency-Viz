@@ -66,6 +66,10 @@ In order to accuretely analyze the messages posted by users they must have to be
     - The sentence is put back together and its grammar is corrected using a grammar library.
     - This is necessary since many words are potentially incomplete due to stemming.
 
+An example of this word preprocessing is shown below.
+
+![alt text](media/wordpre.png)
+
 At the end of these processes, each simplified message is ready to be analyzed.
 
 All the preprocessing techniques were implemented in Python using the NLTK library [2]. These changes to the data were also done prior to loading the data to the web in order to avoid heavy browser computation and to take advantage of the Python environment and libraries.
