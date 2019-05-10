@@ -102,9 +102,11 @@ There are two time-series graphs that show the overall trend of the sentiment an
 
 ##### OverAll Sentiment Trend
 ![alt text](media/filler.png)
+
 The multiline time series graph shows the sentiment values of the top four categories of messages. 
 ##### Posted Messages
 ![alt text](media/msgPosted.png)
+
 The stacked bar graph shows number of messages posted per hour stacked by top four catagories.
 ### Choropleth Map
 To be able to visualize the geographical distribution of the users a choropleth map was used. This map was divided in 19 neighborhoods. Each neighborhood is color coded by a gradient which encodes either the sentiment score average or the amount of earthquake-related messages within that area. There is one big map which shows the overall results among all the resource categories and 4 smaller maps that show the values for that specific resource category. Those smaller visualize the water-related, food-related, health-related, and electricity-related messages. All the maps are also affected by the time slider located at the top of the page. That is a double slider and it is used to set the time range of the data the user wants to view. A screenshot of the demo is shown below.
