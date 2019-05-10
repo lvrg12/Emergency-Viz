@@ -2,7 +2,7 @@ var causes = ["situation","health","food","water","electric","shelter"];
 
 var parseDate = d3.time.format("%m/%d/%Y %H:%M").parse;
 
-var margin = {top: 20, right: 50, bottom: 30, left: 20},
+var margin = {top: 20, right: 50, bottom: 60, left: 20},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -17,11 +17,13 @@ var z = d3.scale.category10();
 var xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom")
-    .tickFormat(d3.time.format("%b"));
+    .tickFormat(d3.time.format("%m/%d/%Y %H:%M"));
 
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient("right");
+
+var c10 = d3.scale.category10();
 
 var stack_svg = d3.select("#content").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -30,6 +32,7 @@ var stack_svg = d3.select("#content").append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 addTitle(stack_svg,width,20,"20px","Messages Posted per Hour");
+addLegend(stack_svg);
 
 d3.csv("data/aggregate.csv", type, function(error, crimea) {
   if (error) throw error;
@@ -58,14 +61,26 @@ d3.csv("data/aggregate.csv", type, function(error, crimea) {
       .attr("width", x.rangeBand() - 1);
 
       stack_svg.append("g")
-      .attr("class", "axis axis--x")
+      .attr("class", "xAxis")
       .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
+      .call(xAxis)
+      .selectAll("text")
+        .attr("y", 0)
+        .attr("x", 9)
+        .attr("dy", ".35em")
+        .attr("transform", "rotate(90)")
+        .style("text-anchor", "start")
+        .style("font-size","6px")
 
       stack_svg.append("g")
-      .attr("class", "axis axis--y")
+      .attr("class", "yAxis")
       .attr("transform", "translate(" + width + ",0)")
       .call(yAxis);
+
+    //   stack_svg.selectAll(".xAxis text")
+    //     .attr("transform", "rotate(90)")
+    //     .style("text-anchor", "start")
+    //     .style("text-size","5px");
 });
 
 function type(d) {
@@ -84,34 +99,32 @@ function addTitle(svg, w, h, size, text) {
 }
 
 function addLegend(svg) {
-    let legendText = ["-1", "-0.5", "0", "0.5", "1"];
+    let legendText = causes;
 
-    let legendColors = [colorAverage(-1), colorAverage(-0.5), colorAverage(0),
-    colorAverage(0.5), colorAverage(1)];
+    let legendColors = [c10(causes[0]), c10(causes[1]), c10(causes[2]), c10(causes[3]), c10(causes[4]), c10(causes[5]) ];
 
     let legend = svg.append("g")
         .attr("id", "average_legend")
-        .attr("transform", "translate(0,30)")
-        .style("opacity", 0);
+        .attr("transform", "translate(0,30)");
 
     legend.append("text")
-        .attr("x", 25 * 2.5)
+        .attr("x", 25 * 3)
         .attr("y", -15)
         .style("text-anchor", "middle")
         .style("font-size", "8px")
-        .text("Sentiment Analysis Score");
+        .text("Resource Type");
 
     let legenditem = legend.selectAll(".legenditem")
-        .data(d3.range(5))
+        .data(d3.range(6))
         .enter()
         .append("g")
         .attr("class", "legenditem")
-        .attr("transform", function (d, i) { return "translate(" + i * 26 + ",0)"; });
+        .attr("transform", function (d, i) { return "translate(" + i * 32 + ",0)"; });
 
     legenditem.append("rect")
         .attr("x", 0)
         .attr("y", -7)
-        .attr("width", 25)
+        .attr("width", 30)
         .attr("height", 6)
         .attr("class", "rect")
         .style("fill", function (d, i) { return legendColors[i]; });
