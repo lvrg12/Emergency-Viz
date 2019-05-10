@@ -39,12 +39,20 @@ let lineGraph = function (date1, date2) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     let sentimentData;
-    d3.csv("data/test.csv", function (error, data) {
+    d3.csv("data/test3.csv", function (error, data) {
         sentimentData = data;
         drawLineGraph(date1, date2);
     });
     function drawLineGraph(date1, date2) {
         let data = sentimentData.slice();
+        let tmp = [];
+        data.forEach( function(d)
+        {
+            if(d.category!="none")
+                tmp.push(d);
+        });
+
+        data = tmp;
         color.domain(d3.keys(data[0]).filter(function (key) {
             return key == "category";
         }));
@@ -100,6 +108,9 @@ let lineGraph = function (date1, date2) {
             .attr("class", "y axis")
             .call(yAxis);
 
+        addTitle(svg,width,20,"20px","Sentiment Analysis Score");
+        addLegend(svg);
+
         let categories = svg.selectAll(".category")
             .data(data, function (d) {
                 return d.key;
@@ -113,8 +124,57 @@ let lineGraph = function (date1, date2) {
                 return line(d.values);
             })
             .style("stroke", function (d) {
-                return color(d.key);
+                return c10(d.key);
             });
+
+            function addTitle(svg, w, h, size, text) {
+                svg.append("text")
+                    .attr("x", w / 2)
+                    .attr("y", h)
+                    .style("text-anchor", "middle")
+                    .style("font-size", size)
+                    .text(text);
+            }
+            
+            function addLegend(svg) {
+                let legendText = causes;
+
+                let legendColors = [c10(causes[0]), c10(causes[1]), c10(causes[2]), c10(causes[3]), c10(causes[4]), c10(causes[5]) ];
+
+                let legend = svg.append("g")
+                    .attr("id", "average_legend")
+                    .attr("transform", "translate(0,30)");
+            
+                legend.append("text")
+                    .attr("x", 25 * 3)
+                    .attr("y", -15)
+                    .style("text-anchor", "middle")
+                    .style("font-size", "8px")
+                    .text("Resource Type");
+            
+                let legenditem = legend.selectAll(".legenditem")
+                    .data(d3.range(6))
+                    .enter()
+                    .append("g")
+                    .attr("class", "legenditem")
+                    .attr("transform", function (d, i) { return "translate(" + i * 32 + ",0)"; });
+            
+                legenditem.append("rect")
+                    .attr("x", 0)
+                    .attr("y", -7)
+                    .attr("width", 30)
+                    .attr("height", 6)
+                    .attr("class", "rect")
+                    .style("fill", function (d, i) { return legendColors[i]; });
+            
+                legenditem.append("text")
+                    .attr("x", 12.5)
+                    .attr("y", 9)
+                    .style("text-anchor", "middle")
+                    .style("font-size", "8px")
+                    .text(function (d, i) { return legendText[i]; });
+            
+            }
 
     }
 
