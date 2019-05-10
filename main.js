@@ -200,16 +200,13 @@ function ready(error, topology, data) {
                 if (data[i].category == "health") {
                     health_average[data[i].location] += +data[i].sentiment;
                     health_count[data[i].location]++;
-                }
-                else if (data[i].category == "food") {
+                } else if (data[i].category == "food") {
                     food_average[data[i].location] += +data[i].sentiment;
                     food_count[data[i].location]++;
-                }
-                else if (data[i].category == "water") {
+                } else if (data[i].category == "water") {
                     water_average[data[i].location] += +data[i].sentiment;
                     water_count[data[i].location]++;
-                }
-                else if (data[i].category == "electric") {
+                } else if (data[i].category == "electric") {
                     electricity_average[data[i].location] += +data[i].sentiment;
                     electricity_count[data[i].location]++;
                 }
@@ -263,8 +260,7 @@ function ready(error, topology, data) {
                 map.style("fill", function (d) {
                     return colorAverage(average[d.properties.Nbrhood])
                 });
-            }
-            else {
+            } else {
                 map.style("fill", function (d) {
                     return colorCount(count[d.properties.Nbrhood])
                 });
@@ -277,8 +273,7 @@ function ready(error, topology, data) {
         if (operation == "average") {
             d3.select("#average_legend").style("opacity", 1);
             d3.select("#count_legend").style("opacity", 0);
-        }
-        else {
+        } else {
             d3.select("#average_legend").style("opacity", 0);
             d3.select("#count_legend").style("opacity", 1);
         }
