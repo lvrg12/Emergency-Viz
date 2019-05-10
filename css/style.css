@@ -20,6 +20,28 @@ div#title {
     font-size: 48px;
 }
 
+div#slider-wrapper {
+    width: 300px;
+    display: inline-block;
+    margin: 0 10px;
+}
+
+div#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 133px;
+    background-color: rgb(219, 219, 219);
+    z-index: 1000;
+    border-bottom: 1px solid #aaa;
+}
+
+div#content {
+    position: relative;
+    top: 150px;
+}
+
 /* path:hover {
     fill: orange;
 } */

@@ -7,41 +7,44 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>VAST Mini-Challenge 3</title>
     <link href="css/style.css" type="text/css" rel="stylesheet" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
-    <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script src="https://d3js.org/queue.v1.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <body>
-    <h1 style="text-align: center;"><strong>VAST Mini-Challenge 3</strong></h1>
-
-    <p>
-        <label for="date">Range:</label>
+    <div id="header">
+        <h1 style="text-align: center;"><strong>VAST Mini-Challenge 3</strong></h1>
+        Time: 
+        <div id="slider-wrapper">
+            <div id="slider-range"></div>
+        </div>
+        <label for="date">Range: </label>
         <input type="text" id="date" readonly style="color:#f6931f; font-weight:bold; width: 15%;">
         <select id="operation">
             <option selected value="average">Average</option>
             <option value="count">Count</option>
         </select>
-    </p>
-    
-    <div id="slider-range"></div>
-
-    <div id="big_map">
-        <svg id="overall_map" class="map" width="600" height="500"></svg>
     </div>
 
-    <div id="small_map">
-        <svg id="health_map" class="map" width="240" height="215"></svg>
-        <svg id="food_map" class="map" width="240" height="215"></svg>
-        <svg id="water_map" class="map" width="240" height="215"></svg>
-        <svg id="electricity_map" class="map" width="240" height="215"></svg>
+    <div id="content">
+        <div id="big_map">
+            <svg id="overall_map" class="map" width="600" height="500"></svg>
+        </div>
+
+        <div id="small_map">
+            <svg id="health_map" class="map" width="240" height="215"></svg>
+            <svg id="food_map" class="map" width="240" height="215"></svg>
+            <svg id="water_map" class="map" width="240" height="215"></svg>
+            <svg id="electricity_map" class="map" width="240" height="215"></svg>
+        </div>
+        <script src="main.js"></script>
+        <script src="lineGraph.js"></script>
+        <script src="stacked.js"></script>
     </div>
-    <script src="main.js"></script>
-    <script src="lineGraph.js"></script>
-    <script src="stacked.js"></script>
 </body>
 
 </html>

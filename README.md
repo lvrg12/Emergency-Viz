@@ -129,3 +129,4 @@ Utilizing the time slider, the choropleth map can be set to show the average sen
 6. TextBlob, https://textblob.readthedocs.io/en/dev/index.html
 7. Time-series library
 8. Doug Dowson, http://bl.ocks.org/dougdowson/9832019
+9. jQuery, https://jquery.com/
