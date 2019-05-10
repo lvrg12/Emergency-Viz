@@ -1,23 +1,23 @@
 "use strict";
 
-var counties = ["Weston", "Southton", "Broadview", "West Parton", "Old Town", "Terrapin Springs",
+let counties = ["Weston", "Southton", "Broadview", "West Parton", "Old Town", "Terrapin Springs",
     "Downtown", "Southwest", "Scenic Vista", "East Parton", "Cheddarford",
     "Palace Hills", "Safe Town", "Easton", "Chapparal", "Northwest", "Oak Willow",
     "Pepper Mill", "Wilson Forest", "UNKNOWN", "<Location with-held due to contract>"];
 
-var overall_average = {};
-var overall_count = {};
-var health_average = {};
-var health_count = {};
-var food_average = {};
-var food_count = {};
-var water_average = {};
-var water_count = {};
-var electricity_average = {};
-var electricity_count = {};
+let overall_average = {};
+let overall_count = {};
+let health_average = {};
+let health_count = {};
+let food_average = {};
+let food_count = {};
+let water_average = {};
+let water_count = {};
+let electricity_average = {};
+let electricity_count = {};
 
-var s_date = new Date("2020-4-6 14:33:00");
-var e_date = new Date("2020-4-6 20:30:00");
+let s_date = new Date("2020-4-6 14:33:00");
+let e_date = new Date("2020-4-6 20:30:00");
 
 const E_TIME = new Date("2020-04-06 14:33:00");
 
@@ -42,23 +42,23 @@ $(function () {
 // ------------------------------------ HEATMAP ----------------------------------------------------
 
 // svg
-var overall_svg = d3.select("svg#overall_map");
-var health_svg = d3.select("svg#health_map");
-var food_svg = d3.select("svg#food_map");
-var water_svg = d3.select("svg#water_map");
-var electricity_svg = d3.select("svg#electricity_map");
+let overall_svg = d3.select("svg#overall_map");
+let health_svg = d3.select("svg#health_map");
+let food_svg = d3.select("svg#food_map");
+let water_svg = d3.select("svg#water_map");
+let electricity_svg = d3.select("svg#electricity_map");
 
-var b_width = +overall_svg.attr("width");
-var b_height = +overall_svg.attr("height");
-var s_width = +health_svg.attr("width");
-var s_height = +health_svg.attr("height");
+let b_width = +overall_svg.attr("width");
+let b_height = +overall_svg.attr("height");
+let s_width = +health_svg.attr("width");
+let s_height = +health_svg.attr("height");
 
 // color scale
-var colorAverage = d3.scale.linear()
+let colorAverage = d3.scale.linear()
     .domain([-1, 0, 1])
     .range(["red", "white", "green"]);
 
-var colorCount = d3.scale.linear()
+let colorCount = d3.scale.linear()
     .domain([0, 300])
     .range(["white", "blue"]);
 
@@ -80,14 +80,14 @@ function ready(error, topology, data) {
     // console.log(data);
 
     // Map and projection
-    var projection = d3.geo.mercator().scale(1).translate([0, 0]);
-    var path = d3.geo.path().projection(projection);
-    var tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
+    let projection = d3.geo.mercator().scale(1).translate([0, 0]);
+    let path = d3.geo.path().projection(projection);
+    let tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0);
 
-    var geojson = topojson.feature(topology, topology.objects.StHimark);
-    var b = path.bounds(geojson);
-    var s = .95 / Math.max((b[1][0] - b[0][0]) / b_width, (b[1][1] - b[0][1]) / b_height);
-    var t = [(b_width - s * (b[1][0] + b[0][0])) / 2, (b_height - s * (b[1][1] + b[0][1])) / 2];
+    let geojson = topojson.feature(topology, topology.objects.StHimark);
+    let b = path.bounds(geojson);
+    let s = .95 / Math.max((b[1][0] - b[0][0]) / b_width, (b[1][1] - b[0][1]) / b_height);
+    let t = [(b_width - s * (b[1][0] + b[0][0])) / 2, (b_height - s * (b[1][1] + b[0][1])) / 2];
 
     projection.scale(s).translate(t);
 
@@ -96,7 +96,7 @@ function ready(error, topology, data) {
         d.properties.count = {};
     });
 
-    var overall_map = overall_svg.selectAll("map").data(geojson.features)
+    let overall_map = overall_svg.selectAll("map").data(geojson.features)
         .enter()
         .append("path")
         .attr("d", path)
@@ -111,28 +111,28 @@ function ready(error, topology, data) {
     addAverageLegend(overall_svg);
     addCountLegend(overall_svg);
 
-    var health_map = health_svg.selectAll("map").data(geojson.features)
+    let health_map = health_svg.selectAll("map").data(geojson.features)
         .enter()
         .append("path")
         .attr("d", path)
         .on("mouseover", function (d) { showTooltip(d, "health") })
         .on("mouseout", hideTooltip);
 
-    var food_map = food_svg.selectAll("map").data(geojson.features)
+    let food_map = food_svg.selectAll("map").data(geojson.features)
         .enter()
         .append("path")
         .attr("d", path)
         .on("mouseover", function (d) { showTooltip(d, "food") })
         .on("mouseout", hideTooltip);
 
-    var water_map = water_svg.selectAll("map").data(geojson.features)
+    let water_map = water_svg.selectAll("map").data(geojson.features)
         .enter()
         .append("path")
         .attr("d", path)
         .on("mouseover", function (d) { showTooltip(d, "water") })
         .on("mouseout", hideTooltip);
 
-    var electricity_map = electricity_svg.selectAll("map").data(geojson.features)
+    let electricity_map = electricity_svg.selectAll("map").data(geojson.features)
         .enter()
         .append("path")
         .attr("d", path)
@@ -166,11 +166,11 @@ function ready(error, topology, data) {
             .style("opacity", 0);
     }
 
-    var update = function update(date1, date2) {
-        var operation = document.getElementById("operation").value;
+    let update = function update(date1, date2) {
+        let operation = document.getElementById("operation").value;
 
-        // initializing variables
-        for (var i = 0; i < counties.length; i++) {
+        // initializing letiables
+        for (let i = 0; i < counties.length; i++) {
             overall_average[counties[i]] = 0;
             overall_count[counties[i]] = 0;
 
@@ -190,7 +190,7 @@ function ready(error, topology, data) {
 
 
         // filtering data
-        for (var i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
             if (data[i].time >= date1
                 & data[i].time < date2
                 & (data[i].category != "none" & data[i].category != "situation" & data[i].category != "shelter")) {
@@ -215,7 +215,7 @@ function ready(error, topology, data) {
         }
 
         // computing average
-        for (var c in overall_average) {
+        for (let c in overall_average) {
             if (overall_average[c] != 0)
                 overall_average[c] = overall_average[c] / overall_count[c];
 
@@ -292,12 +292,12 @@ function ready(error, topology, data) {
     }
 
     function addAverageLegend(svg) {
-        var legendText = ["-1", "-0.5", "0", "0.5", "1"];
+        let legendText = ["-1", "-0.5", "0", "0.5", "1"];
 
-        var legendColors = [colorAverage(-1), colorAverage(-0.5), colorAverage(0),
+        let legendColors = [colorAverage(-1), colorAverage(-0.5), colorAverage(0),
         colorAverage(0.5), colorAverage(1)];
 
-        var legend = svg.append("g")
+        let legend = svg.append("g")
             .attr("id", "average_legend")
             .attr("transform", "translate(0,30)")
             .style("opacity", 0);
@@ -309,7 +309,7 @@ function ready(error, topology, data) {
             .style("font-size", "8px")
             .text("Sentiment Analysis Score");
 
-        var legenditem = legend.selectAll(".legenditem")
+        let legenditem = legend.selectAll(".legenditem")
             .data(d3.range(5))
             .enter()
             .append("g")
@@ -334,12 +334,12 @@ function ready(error, topology, data) {
     }
 
     function addCountLegend(svg) {
-        var legendText = ["0", "75", "150", "225", ">300"];
+        let legendText = ["0", "75", "150", "225", ">300"];
 
-        var legendColors = [colorCount(0), colorCount(75), colorCount(150),
+        let legendColors = [colorCount(0), colorCount(75), colorCount(150),
         colorCount(225), colorCount(300)];
 
-        var legend = svg.append("g")
+        let legend = svg.append("g")
             .attr("id", "count_legend")
             .attr("transform", "translate(0,30)")
             .style("opacity", 0);
@@ -351,7 +351,7 @@ function ready(error, topology, data) {
             .style("font-size", "8px")
             .text("Message Count");
 
-        var legenditem = legend.selectAll(".legenditem")
+        let legenditem = legend.selectAll(".legenditem")
             .data(d3.range(5))
             .enter()
             .append("g")
@@ -376,7 +376,7 @@ function ready(error, topology, data) {
     }
 
     function getDate(value) {
-        var date = new Date(E_TIME.getTime());
+        let date = new Date(E_TIME.getTime());
         date.setMinutes(date.getMinutes() + value);
         return date;
     }
@@ -392,8 +392,8 @@ function ready(error, topology, data) {
             max: 5606,
             values: [0, 330],
             slide: function (event, ui) {
-                var date1 = getDate(ui.values[0]);
-                var date2 = getDate(ui.values[1])
+                let date1 = getDate(ui.values[0]);
+                let date2 = getDate(ui.values[1])
                 $("#date").val(formatedDate(date1) + " TO " + formatedDate(date2));
 
                 // update map visualization using data points between date1 and date2
