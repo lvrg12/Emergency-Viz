@@ -195,6 +195,7 @@ function ready( error, topology, data )
 
         }
 
+
         // filtering data
         for( var i=0; i<data.length; i++ )
         {
