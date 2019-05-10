@@ -47,13 +47,13 @@ div#content {
 }
 
 .left-col {
-    right: 300px !important;
+    right: 500px !important;
 }
 
 .right-col {
     position: absolute;
     top: 133px;
-    width: 300px;
+    width: 500px;
     right: 0;
     bottom: 0;
     overflow: auto;
