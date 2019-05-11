@@ -1,6 +1,8 @@
 # Emergency-Viz
 Emergency heatmap visualization based on social media sentiment analysis data
 
+[Video Demo](https://lvrg12.github.io/Emergency-Viz/media/DemoVideo.mp4)
+
 Demo: https://lvrg12.github.io/Emergency-Viz
 
 Social Media Demo: https://ak65234.github.io/yint
